@@ -1,0 +1,78 @@
+{
+    "name": "crowdfunding",
+    "comment": "add then check",
+    "gasSchedule": "v3",
+    "steps": [
+        {
+            "step": "setState",
+            "comment": "only set block info this time",
+            "accounts": {
+                "address:player_1": {
+                    "comment": "we can comment on individual account initializations",
+                    "nonce": "0",
+                    "balance": "123,000,000,000",
+                    "esdt": {
+                        "str:MY_NFT-123456": {
+                            "instances": [
+                                {
+                                    "nonce": "1",
+                                    "balance": "1",
+                                    "creator": "address:xplore_progress",
+                                    "royalties": "5000",
+                                    "hash": "keccak256:str:other_nft_hash",
+                                    "uri": [
+                                        "str:www.something.com/funny.jpeg"
+                                    ],
+                                    "attributes": "str:other_attributes"
+                                }
+                            ],
+                            "lastNonce": "1",
+                            "roles": [
+                            ],
+                            "frozen": "false"
+                        }
+                    },
+                    "username": "str:player_1"
+                },
+                "sc:xplore_progress": {
+                    "nonce": "0",
+                    "code": "file:../output/crowdfunding.wasm"
+                }
+            }
+        },
+        {
+            "step": "scCall",
+            "txId": "tx-name-or-id",
+            "comment": "just an example",
+            "tx": {
+                "from": "address:player_1",
+                "to": "sc:xplore_progress",
+                "egldValue": "1",
+                "function": "update_progress",
+                "arguments": [],
+                "gasLimit": "5,000,000",
+                "gasPrice": "0"
+            },
+            "expect": {
+                "out": [
+                    "5",
+                    "*"
+                ],
+                "status": "",
+                "logs": [
+                    {
+                        "address": "sc:contract",
+                        "endpoint": "str:contractEndpoint",
+                        "topics": [
+                            "str:topic-1",
+                            "str:topic-2"
+                        ],
+                        "data": "str:log-value"
+                    }
+                ],
+                "gas": "*",
+                "refund": "*"
+            }
+        }
+    ]
+}
