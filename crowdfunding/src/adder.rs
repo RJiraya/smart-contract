@@ -27,7 +27,7 @@ pub trait Adder { // TODO @RMA rename it
     // fn progress(&self) -> LinkedListMapper<IPlayer>;
 
     #[init]
-    fn init(&self, phase: BigUint, enigma: BigUint) {
+    fn init(&self, phase: BigUint<Self::Api>, enigma: BigUint<Self::Api>) {
         self.phase().set(phase);
         self.enigma().set(enigma);
     }
@@ -35,19 +35,24 @@ pub trait Adder { // TODO @RMA rename it
     #[payable("*")]
     #[endpoint]
     fn update_progress(&self) {
-        require!(self.is_ticket_valid(), "Unable to update progress: Invalid ticket state");
-        // let _caller = self.blockchain().get_caller();
-        // let token_id = TokenIdentifier::from(""); // TODO get NFT id
-        // let _nft = self.blockchain().get_esdt_balance(&_caller, &token_id, 1);
+        let token: EsdtTokenPayment<Self::Api> = self.call_value().single_esdt();
+        let caller: ManagedAddress<Self::Api> = self.blockchain().get_caller();
+        // let owner: ManagedAddress<Self::Api> = self.blockchain().get_owner_address();
+        let token_data: EsdtTokenData<Self::Api> = self.blockchain().get_esdt_token_data(&caller, &token.token_identifier, token.token_nonce);
 
-        // TODO fetch NFT from wallet get_sc_balance
+        // sc_print!("{}", owner.to_address());
+        require!(self.is_ticket_valid(&token_data), "Unable to update progress: Invalid ticket state");
+
         // TODO @RMA update NFT
         // TODO @RMA update progress
     }
 
-    fn is_ticket_valid(&self) -> bool {
-        // TODO @RMA check if player has NFT
-        // TODO @RMA check if player is is at step
-        return false;
+    fn is_ticket_valid(&self, token_data: &EsdtTokenData<Self::Api>) -> bool {
+        let is_nft: bool = token_data.token_type == EsdtTokenType::NonFungible;
+        // TODO @RMA use init variable for creator in case of NFT issuer different from this smart contract
+        // let is_valid_ticket = token_data.creator.eq(&self.blockchain().get_caller());
+        let is_valid_ticket: bool = token_data.creator == self.blockchain().get_owner_address();
+
+        return is_valid_ticket;
     }
 }

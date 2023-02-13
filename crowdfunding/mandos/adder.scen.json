@@ -17,7 +17,7 @@
                                 {
                                     "nonce": "1",
                                     "balance": "1",
-                                    "creator": "address:xplore_progress",
+                                    "creator": "address:player_1",
                                     "royalties": "5000",
                                     "hash": "keccak256:str:other_nft_hash",
                                     "uri": [
@@ -47,29 +47,24 @@
             "tx": {
                 "from": "address:player_1",
                 "to": "sc:xplore_progress",
-                "egldValue": "1",
+                "egldValue": "0",
+                "esdtValue": [
+                    {
+                        "tokenIdentifier": "str:MY_NFT-123456",
+                        "nonce": "1",
+                        "value": "1"
+                    }
+                ],
                 "function": "update_progress",
                 "arguments": [],
                 "gasLimit": "5,000,000",
                 "gasPrice": "0"
             },
             "expect": {
-                "out": [
-                    "5",
-                    "*"
-                ],
-                "status": "",
-                "logs": [
-                    {
-                        "address": "sc:contract",
-                        "endpoint": "str:contractEndpoint",
-                        "topics": [
-                            "str:topic-1",
-                            "str:topic-2"
-                        ],
-                        "data": "str:log-value"
-                    }
-                ],
+                "out": [],
+                "status": "0",
+                "message": "",
+                "logs": [],
                 "gas": "*",
                 "refund": "*"
             }

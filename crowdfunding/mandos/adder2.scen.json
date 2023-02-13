@@ -17,7 +17,7 @@
                                 {
                                     "nonce": "1",
                                     "balance": "1",
-                                    "creator": "address:xplore_progress",
+                                    "creator": "address:player_1",
                                     "royalties": "5000",
                                     "hash": "keccak256:str:other_nft_hash",
                                     "uri": [
@@ -51,7 +51,7 @@
                 "esdtValue": [
                     {
                         "tokenIdentifier": "str:MY_NFT-123456",
-                        "nonce": "24",
+                        "nonce": "1",
                         "value": "1"
                     }
                 ],
@@ -60,7 +60,14 @@
                 "gasLimit": "5,000,000",
                 "gasPrice": "0"
             },
-
+            "expect": {
+                "out": [],
+                "status": "4",
+                "message": "str:Unable to update progress: Invalid ticket state",
+                "logs": "*",
+                "gas": "*",
+                "refund": "*"
+            }
         }
     ]
 }
